@@ -1,8 +1,9 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Search, MessageSquare, CreditCard, Star, Shield, Users } from "lucide-react";
+import { Search, MessageSquare, CreditCard, Star, Shield, Users, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import Navigation from "@/components/Navigation";
 
 const HowItWorks = () => {
   const steps = [
@@ -48,77 +49,72 @@ const HowItWorks = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Navigation */}
-      <nav className="bg-white border-b sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <Link to="/" className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-green-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">R</span>
-              </div>
-              <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">
-                Rentify
-              </span>
-            </Link>
-            <div className="flex items-center space-x-3">
-              <Link to="/browse">
-                <Button variant="outline">Browse</Button>
-              </Link>
-              <Button>List Item</Button>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <Navigation />
 
       {/* Hero Section */}
-      <section className="py-16 px-4">
+      <section className="py-20 px-4 bg-gradient-to-b from-gray-50 to-white">
         <div className="container mx-auto text-center max-w-4xl">
-          <h1 className="text-5xl font-bold mb-6">How Rentify Works</h1>
-          <p className="text-xl text-gray-600 mb-12">
-            Simple steps to rent anything you need, or earn from what you own
+          <h1 className="text-4xl md:text-6xl font-bold mb-6 text-gray-900">
+            How It <span className="text-blue-600">Works</span>
+          </h1>
+          <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+            Rent anything you need or earn from what you own. It's simple, secure, and community-driven.
           </p>
         </div>
       </section>
 
       {/* Steps */}
-      <section className="py-16 px-4 bg-gray-50">
+      <section className="py-20 px-4">
         <div className="container mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">For Renters</h2>
-            <p className="text-gray-600">Get what you need in 4 simple steps</p>
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900">For Renters</h2>
+            <p className="text-lg text-gray-600">Get what you need in 4 simple steps</p>
           </div>
-          <div className="grid md:grid-cols-4 gap-8">
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
             {steps.map((step, index) => (
-              <Card key={index} className="text-center border-none shadow-lg">
-                <CardContent className="p-8">
-                  <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <step.icon className="h-8 w-8 text-white" />
+              <div key={index} className="relative">
+                <Card className="text-center border-0 shadow-lg hover:shadow-xl transition-all duration-300 h-full bg-white">
+                  <CardContent className="p-8">
+                    <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                      <step.icon className="h-8 w-8 text-white" />
+                    </div>
+                    <div className="text-sm font-semibold text-blue-600 mb-3 tracking-wide">
+                      STEP {index + 1}
+                    </div>
+                    <h3 className="text-xl font-bold mb-4 text-gray-900">{step.title}</h3>
+                    <p className="text-gray-600 leading-relaxed">{step.description}</p>
+                  </CardContent>
+                </Card>
+                
+                {/* Arrow connector */}
+                {index < steps.length - 1 && (
+                  <div className="hidden lg:block absolute top-1/2 -right-4 transform -translate-y-1/2 z-10">
+                    <ArrowRight className="h-6 w-6 text-gray-300" />
                   </div>
-                  <div className="text-sm font-medium text-gray-500 mb-2">STEP {index + 1}</div>
-                  <h3 className="text-xl font-semibold mb-3">{step.title}</h3>
-                  <p className="text-gray-600">{step.description}</p>
-                </CardContent>
-              </Card>
+                )}
+              </div>
             ))}
           </div>
         </div>
       </section>
 
       {/* Benefits */}
-      <section className="py-16 px-4">
+      <section className="py-20 px-4 bg-gray-50">
         <div className="container mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Why Choose Rentify?</h2>
-            <p className="text-gray-600">Built for trust, convenience, and community</p>
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900">Why Choose Rentify?</h2>
+            <p className="text-lg text-gray-600">Built for trust, convenience, and community</p>
           </div>
-          <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+          
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {benefits.map((benefit, index) => (
-              <div key={index} className="text-center">
-                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                  <benefit.icon className="h-6 w-6 text-blue-600" />
+              <div key={index} className="text-center group">
+                <div className="w-16 h-16 bg-blue-100 group-hover:bg-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6 transition-all duration-300 shadow-md">
+                  <benefit.icon className="h-8 w-8 text-blue-600 group-hover:text-white transition-colors duration-300" />
                 </div>
-                <h3 className="text-lg font-semibold mb-2">{benefit.title}</h3>
-                <p className="text-gray-600">{benefit.description}</p>
+                <h3 className="text-xl font-bold mb-4 text-gray-900">{benefit.title}</h3>
+                <p className="text-gray-600 leading-relaxed">{benefit.description}</p>
               </div>
             ))}
           </div>
@@ -126,18 +122,33 @@ const HowItWorks = () => {
       </section>
 
       {/* CTA */}
-      <section className="py-16 px-4 bg-gradient-to-r from-blue-600 to-green-600">
+      <section className="py-20 px-4 bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800">
         <div className="container mx-auto text-center">
-          <h2 className="text-3xl font-bold text-white mb-6">Ready to Get Started?</h2>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+            Ready to Get Started?
+          </h2>
+          <p className="text-xl text-blue-100 mb-10 max-w-2xl mx-auto">
+            Join thousands of users who are already renting and earning with Rentify
+          </p>
+          
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link to="/browse">
-              <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100">
+              <Button 
+                size="lg" 
+                className="bg-white text-blue-600 hover:bg-gray-100 shadow-lg px-8 py-3 text-lg font-semibold min-w-[200px]"
+              >
                 Start Browsing
               </Button>
             </Link>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10">
-              List Your Item
-            </Button>
+            <Link to="/list-item">
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="border-2 border-white text-white hover:bg-white hover:text-blue-600 px-8 py-3 text-lg font-semibold min-w-[200px] transition-all duration-300"
+              >
+                List Your Item
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
