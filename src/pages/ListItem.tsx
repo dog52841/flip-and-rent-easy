@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 import Navigation from "@/components/Navigation";
 
 const ListItem = () => {
@@ -36,8 +37,34 @@ const ListItem = () => {
     setLoading(true);
 
     try {
-      // Here you would typically save to Supabase
-      // For now, we'll just show a success message
+      const { data, error } = await supabase
+        .from("listings")
+        .insert([
+          {
+            user_id: user.id,
+            title,
+            description,
+            price: parseFloat(price),
+            category,
+            location,
+            image_url: imageUrl,
+            available: true,
+          },
+        ])
+        .select();
+
+      if (error) {
+        console.error("Error creating listing:", error);
+        toast({
+          title: "Error",
+          description: "Failed to create listing. Please try again.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      console.log("Listing created successfully:", data);
+      
       toast({
         title: "Success",
         description: "Your item has been listed successfully!",
@@ -54,9 +81,10 @@ const ListItem = () => {
       // Navigate to browse page
       navigate("/browse");
     } catch (error: any) {
+      console.error("Unexpected error:", error);
       toast({
         title: "Error",
-        description: "Failed to list item. Please try again.",
+        description: "An unexpected error occurred. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -101,9 +129,11 @@ const ListItem = () => {
                     <label className="block text-sm font-medium mb-2">Price per day ($)</label>
                     <Input
                       type="number"
+                      step="0.01"
+                      min="0"
                       value={price}
                       onChange={(e) => setPrice(e.target.value)}
-                      placeholder="0"
+                      placeholder="0.00"
                       required
                     />
                   </div>
@@ -144,7 +174,7 @@ const ListItem = () => {
                 </div>
 
                 <Button type="submit" className="w-full" disabled={loading}>
-                  {loading ? "Listing..." : "List Item"}
+                  {loading ? "Creating Listing..." : "List Item"}
                 </Button>
               </form>
             </CardContent>
