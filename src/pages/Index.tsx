@@ -1,22 +1,32 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Search, MapPin, ArrowRight, Zap, Camera, Car, Home, Shield, Clock, TrendingUp } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import ItemCard from "@/components/ItemCard";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedLocation, setSelectedLocation] = useState("");
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
   const handleSearch = () => {
     const params = new URLSearchParams();
     if (searchQuery) params.append('search', searchQuery);
     if (selectedLocation) params.append('location', selectedLocation);
-    window.location.href = `/browse?${params.toString()}`;
+    navigate(`/browse?${params.toString()}`);
+  };
+
+  const handleListItem = () => {
+    if (user) {
+      navigate("/list-item");
+    } else {
+      navigate("/auth");
+    }
   };
 
   const categories = [
@@ -233,7 +243,11 @@ const Index = () => {
             Join the community and start earning or saving today.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-white text-black hover:bg-gray-100">
+            <Button 
+              onClick={handleListItem}
+              size="lg" 
+              className="bg-white text-black hover:bg-gray-100"
+            >
               List Your Item
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
