@@ -2,8 +2,10 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Calendar, DollarSign, Package, Star, TrendingUp, Users, Eye, MessageSquare, ArrowRight, BarChart3 } from "lucide-react";
+import { Plus, Calendar, DollarSign, Package, Star, Eye, MessageSquare, ArrowRight, BarChart3, Users } from "lucide-react";
 import { Link } from "react-router-dom";
+import Navigation from "@/components/Navigation";
+import QuickStats from "@/components/QuickStats";
 
 const Dashboard = () => {
   const stats = [
@@ -11,29 +13,25 @@ const Dashboard = () => {
       label: "Active Listings", 
       value: "3", 
       icon: Package, 
-      change: "+1 this week",
-      trend: "up"
+      change: "+1 this week"
     },
     { 
       label: "Total Earnings", 
       value: "$1,245", 
       icon: DollarSign, 
-      change: "+$234 this month",
-      trend: "up"
+      change: "+$234 this month"
     },
     { 
       label: "Total Bookings", 
       value: "24", 
       icon: Calendar, 
-      change: "+8 this week",
-      trend: "up"
+      change: "+8 this week"
     },
     { 
       label: "Average Rating", 
       value: "4.8", 
       icon: Star, 
-      change: "+0.2 improvement",
-      trend: "up"
+      change: "+0.2 improvement"
     },
   ];
 
@@ -92,33 +90,7 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Navigation */}
-      <nav className="bg-white border-b border-gray-200 sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <Link to="/" className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-black rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold">R</span>
-              </div>
-              <div>
-                <span className="text-xl font-semibold text-gray-900">Rentify</span>
-                <div className="text-xs text-gray-500">Dashboard</div>
-              </div>
-            </Link>
-            <div className="flex items-center space-x-3">
-              <Link to="/browse">
-                <Button variant="outline" className="border-gray-200">
-                  Browse Items
-                </Button>
-              </Link>
-              <Button className="bg-black text-white hover:bg-gray-800">
-                <Plus className="h-4 w-4 mr-2" />
-                List New Item
-              </Button>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <Navigation />
 
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
@@ -128,21 +100,17 @@ const Dashboard = () => {
               <h1 className="text-3xl font-bold mb-2 text-gray-900">Welcome back</h1>
               <p className="text-lg text-gray-600">Here's what's happening with your rentals</p>
             </div>
-            <div className="bg-white rounded-lg p-4 border border-gray-200">
-              <div className="text-sm text-gray-600">This Month</div>
-              <div className="text-2xl font-bold text-green-600">+$234</div>
-              <div className="text-xs text-green-600 flex items-center">
-                <TrendingUp className="h-3 w-3 mr-1" />
-                +23% vs last month
-              </div>
-            </div>
+            <Button className="bg-black text-white hover:bg-gray-800">
+              <Plus className="h-4 w-4 mr-2" />
+              List New Item
+            </Button>
           </div>
         </div>
 
         {/* Quick Actions */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           {quickActions.map((action, index) => (
-            <Card key={index} className="group cursor-pointer hover:shadow-md transition-all duration-300 border-gray-200">
+            <Card key={index} className="group cursor-pointer hover:shadow-md transition-all duration-300 border-0">
               <CardContent className="p-6 text-center">
                 <div className="inline-flex items-center justify-center w-12 h-12 bg-gray-100 rounded-lg mb-3 group-hover:bg-gray-200 transition-colors">
                   <action.icon className="h-6 w-6 text-gray-700" />
@@ -153,33 +121,13 @@ const Dashboard = () => {
           ))}
         </div>
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          {stats.map((stat, index) => (
-            <Card key={index} className="border-gray-200">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
-                    <stat.icon className="h-6 w-6 text-gray-700" />
-                  </div>
-                  <div className="text-right">
-                    <div className="text-2xl font-bold text-gray-900">{stat.value}</div>
-                    <div className="text-sm text-gray-600">{stat.label}</div>
-                  </div>
-                </div>
-                <div className="flex items-center text-sm text-green-600 font-medium">
-                  <TrendingUp className="h-4 w-4 mr-1" />
-                  {stat.change}
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+        {/* Stats */}
+        <QuickStats stats={stats} />
 
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Listings */}
           <div className="lg:col-span-2">
-            <Card className="border-gray-200">
+            <Card className="border-0 shadow-sm">
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div>
@@ -195,7 +143,7 @@ const Dashboard = () => {
               <CardContent>
                 <div className="space-y-4">
                   {listings.map((listing) => (
-                    <div key={listing.id} className="bg-gray-50 rounded-lg p-6 border border-gray-200">
+                    <div key={listing.id} className="bg-gray-50 rounded-lg p-6 border border-gray-100">
                       <div className="flex items-center space-x-4">
                         <img
                           src={listing.image}
@@ -246,7 +194,7 @@ const Dashboard = () => {
                   ))}
                 </div>
                 <div className="mt-6 text-center">
-                  <Button variant="outline" className="border-gray-200">
+                  <Button variant="outline">
                     View All Listings
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
@@ -257,7 +205,7 @@ const Dashboard = () => {
 
           {/* Recent Activity */}
           <div>
-            <Card className="border-gray-200">
+            <Card className="border-0 shadow-sm">
               <CardHeader>
                 <CardTitle className="text-lg font-bold text-gray-900">Recent Activity</CardTitle>
                 <p className="text-gray-600">Latest updates and notifications</p>
@@ -265,7 +213,7 @@ const Dashboard = () => {
               <CardContent>
                 <div className="space-y-4">
                   {recentActivity.map((activity, index) => (
-                    <div key={index} className="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg border border-gray-200">
+                    <div key={index} className="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
                       <div className="w-2 h-2 rounded-full mt-2 bg-blue-500"></div>
                       <div className="flex-grow">
                         <p className="text-sm text-gray-900 font-medium">{activity.message}</p>
@@ -275,7 +223,7 @@ const Dashboard = () => {
                   ))}
                 </div>
                 <div className="mt-6">
-                  <Button variant="outline" className="w-full border-gray-200">
+                  <Button variant="outline" className="w-full">
                     View All Activity
                   </Button>
                 </div>
